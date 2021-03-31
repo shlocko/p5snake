@@ -1,6 +1,7 @@
 
-let fr, menu, gameOver, pauseControl, x, y, snake, length, apple, dir, growth, score;
-fr = 8;
+let speed, timer, menu, gameOver, pauseControl, x, y, snake, length, apple, dir, growth, score;
+speed = 100;
+timer = 0;
 menu = true;
 gameOver = false;
 pauseControl = false;
@@ -22,7 +23,7 @@ function randomInt(min, max) {
 
 function setup(){
     createCanvas(600, 400);
-    frameRate(fr);
+    //frameRate(fr);
 }
 
 const drawGame = () => {
@@ -32,7 +33,12 @@ const drawGame = () => {
     fill(0);
     textSize(12);
     text(`Score: ${score.toString()}`, 10, 10);
-    update();
+
+    if(millis() >= timer+speed) {
+        console.log('timer');
+        update();
+        timer = millis();
+    }
 }
 const drawSnake = () => {
     fill(150);
@@ -46,20 +52,20 @@ const drawApple = () => {
     rect(apple[0]*20, apple[1]*20, 20, 20);
 }
 const update = () => {
-    switch(dir){
-        case "right":
-            x+=1;
-            break;
-        case "left":
-            x-=1;
-            break;
-        case "up":
-            y-=1;
-            break;
-        case"down":
-            y+=1;
-            break;
-    }
+        switch (dir) {
+            case "right":
+                x += 1;
+                break;
+            case "left":
+                x -= 1;
+                break;
+            case "up":
+                y -= 1;
+                break;
+            case"down":
+                y += 1;
+                break;
+        }
     checkCollision();
     snake.push([x,y]);
     if (snake.length > length) {
